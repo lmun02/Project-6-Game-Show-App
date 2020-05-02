@@ -1,39 +1,73 @@
-/*--- Created Varibales---*/
+/*==Variables Created==*/ 
+
 const qwerty = document.getElementById('qwerty');
-const displayPhrase = document.getElementById('phrase');
-const btnReset = document.querySelector('.btn_reset'); 
+const phraseDisplay = document.getElementById('phrase');
+const startDiv = document.querySelector('.start');
+const title = document.querySelector('.title');
 const overlay = document.getElementById('overlay');
 
-    //Array of Phrases
-    let phrases =[
-        'My dog loves to run',
-        'We love to go to the beach',
-        'Summer is my favorite season',
-        'Hawaii is my home',
-        'We love to travel'
-    ]
+//Guess Count
+let guessCount = document.querySelectorAll('.tries');
+let correct;
+let missed = 0;
 
-    //GuessCount
-    let guessTries = document.querySelectorAll('.tries');
-    let correctLetter;
-    let missed = 0;
+/*== Event Listener ==*/ 
 
-/*--- Event Handler for Star Overlay---*/
-
-btnReset.addEventListener('click', () => {
+overlay.addEventListener('click', (e) => {
     overlay.style.display = 'none';
-})
+});
 
-/*--- getRandomPhraseAsArray Function ---*/ 
+/*== Array of Phrases ==*/ 
 
-function getRandomPhraseAsArray(arr) {
+const phraseText = [
+    'puppy love',
+    'summer is amazing',
+    'ocean therapy',
+    'lets go hiking',
+    'aloha'
+]
 
+/*== getRandomPhraseAsArray selection ==*/ // phrase into letter of array
+
+const getRandomPhraseAsArray = (arr) => {
+    let randomPhrase = Math.floor(Math.random() * phraseText.length);
+    
+     return phraseText[randomPhrase].split('');
+}
+getRandomPhraseAsArray(phraseText);
+
+
+/*== addPhraseToDisplay Game Display==*/ 
+
+const addPhraseToDisplay = (arr) => {
+    for (let i = 0; i < arr.length; i++) {
+      let li = document.createElement('li');
+      li.textContent = arr[i];
+
+      if (li.textContent === ' ') {
+        li.className = "space"; //li.classList.add('space');
+
+      } else {
+        li.className = "letter"; //li.classList.add('leter');
+      }
+
+      phraseDisplay.appendChild(li);
+    }
+    
 }
 
-/*--- Add phrase to Display Function ---*/ 
+const phraseArray = getRandomPhraseAsArray(phraseText);
+addPhraseToDisplay(phraseArray);
 
-/*--- checkLetter Function ---*/
+/*== checkLetter ==*/ 
 
-/*--- Event Listener to Keyboard ---*/
+    //const checkLetter = button => {}
 
-/*--- checkWin Function ---*/
+/*== Event Listener Keyboard*/ 
+
+    //qwerty.addEventListener('click', () => {});
+
+/*== checkWin ==*/ 
+
+    //const checkWin = () => {}
+
