@@ -1,10 +1,11 @@
 /*==Variables Created==*/ 
 
-const qwerty = document.getElementById('qwerty');
+const keyboard = document.getElementById('qwerty');
 const phraseDisplay = document.getElementById('phrase');
-const startDiv = document.querySelector('.start');
 const title = document.querySelector('.title');
+const startDiv = document.querySelector('.start');
 const overlay = document.getElementById('overlay');
+const btnReset = document.querySelector('.btn__reset');
 
 //Guess Count
 let guessCount = document.querySelectorAll('.tries');
@@ -29,45 +30,86 @@ const phraseText = [
 
 /*== getRandomPhraseAsArray selection ==*/ // phrase into letter of array
 
-const getRandomPhraseAsArray = (arr) => {
+const getRandomPhraseAsArray = (array) => {
     let randomPhrase = Math.floor(Math.random() * phraseText.length);
-    
-     return phraseText[randomPhrase].split('');
+    let random = array[randomPhrase];
+    return phraseText[randomPhrase].split('');
 }
+
 getRandomPhraseAsArray(phraseText);
 
 
 /*== addPhraseToDisplay Game Display==*/ 
 
-const addPhraseToDisplay = (arr) => {
-    for (let i = 0; i < arr.length; i++) {
+const addPhraseToDisplay = (array) => {
+    for (let i = 0; i < array.length; i++) {
       let li = document.createElement('li');
-      li.textContent = arr[i];
+      li.textContent = array[i];
 
       if (li.textContent === ' ') {
-        li.className = "space"; //li.classList.add('space');
-
+        li.className = "space"; 
       } else {
-        li.className = "letter"; //li.classList.add('leter');
+        li.className = "letter";
       }
 
       phraseDisplay.appendChild(li);
-    }
-    
+    }   
 }
 
-const phraseArray = getRandomPhraseAsArray(phraseText);
+let phraseArray = getRandomPhraseAsArray(phraseText);
 addPhraseToDisplay(phraseArray);
 
 /*== checkLetter ==*/ 
 
-    //const checkLetter = button => {}
+    const checkLetter = button => {
+      let liItems = document.getElementsByClassName('letter');
+      let hearts = document.getElementsByClassName('hearts');
+      let correctMatch = null;
 
-/*== Event Listener Keyboard*/ 
+      for (let i =0; i < liItems.length; i++) {
+        if (liItems[i].textContent === button) {
+          liItems[i].classList.add('show'); 
+          correctMatch = liItems[i].textContent; //if match they store button in liItems variable
+        }
+      }
+      return correctMatch;
+    }
 
-    //qwerty.addEventListener('click', () => {});
+/*== Event Listener Keyboard ==*/ 
 
+      keyboard.addEventListener('click', (event) => {   //Event Listener on "click" of keyboard
+        const letterMatch = checkLetter(event.target.innerHTML);     
+        if (event.target.tagName === 'BUTTON') {
+            event.target.classList.add('chosen');
+            event.target.disabled = true;
+            
+          if (letterMatch === null) { //checkLetter does not find letter, remove heart
+              let heart = document.getElementsByTagName('img')[missed];
+              heart.src = 'images/lostHeart.png';
+              missed += 1;
+            } 
+        }  
+        checkWin ();
+      });
+    
 /*== checkWin ==*/ 
 
-    //const checkWin = () => {}
-
+    const checkWin = () => {
+      const letter = document.getElementsByClassName("letter");
+      const show = document.getElementsByClassName("show");
+      const title = document.querySelector(".title");
+      if (letter.length === show.length) {
+        overlay.classList.add('win');
+        overlay.style.display = "flex";      
+        title.textContent = "YOU WIN!!"; 
+        startDiv.setAttribute("onClick","window.location.reload()");
+        btnReset.textContent = "Restart"; 
+      }
+      else if (missed > 4) {
+        overlay.classList.add('lose');
+        overlay.style.display= "flex";
+        title.textContent = "Game Over...Try Again!";
+        startDiv.setAttribute("onClick","window.location.reload()");
+        btnReset.textContent = "Try Again";      
+      }
+    };
