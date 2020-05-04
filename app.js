@@ -14,7 +14,7 @@ let missed = 0;
 
 /*== Event Listener ==*/ 
 
-overlay.addEventListener('click', (e) => {
+overlay.addEventListener('click', (event) => {
     overlay.style.display = 'none';
 });
 
@@ -31,9 +31,9 @@ const phraseText = [
 /*== getRandomPhraseAsArray selection ==*/ // phrase into letter of array
 
 const getRandomPhraseAsArray = (array) => {
-    let randomPhrase = Math.floor(Math.random() * phraseText.length);
-    let random = array[randomPhrase];
-    return phraseText[randomPhrase].split('');
+    let randomPhrase = Math.floor(Math.random() * array.length);
+    
+    return array[randomPhrase].split('');
 }
 
 getRandomPhraseAsArray(phraseText);
@@ -44,6 +44,7 @@ getRandomPhraseAsArray(phraseText);
 const addPhraseToDisplay = (array) => {
     for (let i = 0; i < array.length; i++) {
       let li = document.createElement('li');
+      let ul = document.getElementsByTagName('ul')[0];
       li.textContent = array[i];
 
       if (li.textContent === ' ') {
@@ -52,7 +53,7 @@ const addPhraseToDisplay = (array) => {
         li.className = "letter";
       }
 
-      phraseDisplay.appendChild(li);
+      ul.appendChild(li);
     }   
 }
 
